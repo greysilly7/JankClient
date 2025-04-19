@@ -137,6 +137,7 @@ export async function inviteResponse(
 			type: "link",
 			version: "1.0",
 			title,
+			description,
 			thumbnail_url: thumbnail,
 			provider_name: "Jank Client",
 			provider_url: url.origin,

@@ -2,7 +2,7 @@
 
 import fastifyCompress from "@fastify/compress";
 import fastifyStatic from "@fastify/static";
-import Fastify, { FastifyServerOptions } from "fastify";
+import Fastify from "fastify";
 import path from "node:path";
 import fs, { readFileSync } from "node:fs"
 import { observe, uptime } from "./stats.js";
@@ -90,7 +90,7 @@ async function updateInstances(): Promise<void> {
 updateInstances();
 
 const fastify = Fastify({
-	logger: devmode, // Enable logging in development mode
+	logger: devmode,
 	http2: !devmode,
 	https: !devmode ? {
 		allowHTTP1: false,
@@ -101,12 +101,11 @@ const fastify = Fastify({
 });
 
 // Register plugins
-fastify.register(fastifyCompress); // Equivalent to compression()
+fastify.register(fastifyCompress);
 fastify.register(fastifyStatic, {
 	root: path.join(__dirname, "webpage"),
-	prefix: "/", // Serve files from the root URL path
-	index: ["home.html", "index.html"], // Serve home.html or index.html for '/'
-	// decorateReply: false // Prevent decoration if not needed, default is true
+	prefix: "/",
+	index: ["home.html", "index.html"],
 });
 
 // --- Routes ---
@@ -129,7 +128,7 @@ fastify.get("/uptime", async (request, reply) => {
 });
 
 // Instances JSON Route
-fastify.get("/instances.json", async (request, reply) => {
+fastify.get("/instances.json", async (_, reply) => {
 	reply.send(instances);
 });
 
