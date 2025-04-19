@@ -105,7 +105,7 @@ fastify.register(fastifyCompress);
 fastify.register(fastifyStatic, {
 	root: path.join(__dirname, "webpage"),
 	prefix: "/",
-	index: ["home.html", "index.html"],
+	index: ["home.html", "index.html", "invite.html", "template.html"],
 });
 
 // --- Routes ---
@@ -138,6 +138,8 @@ fastify.addHook('onRequest', async (request, reply) => {
 		request.url.startsWith('/services/oembed') ||
 		request.url.startsWith('/uptime') ||
 		request.url.startsWith('/instances.json') ||
+		request.url.startsWith('/invite') ||
+		request.url.startsWith('/template') ||
 		request.url.includes('.')
 	) {
 		return;
