@@ -100,7 +100,6 @@ const fastify = Fastify({
 	trustProxy: (ip: string) => ip.startsWith("127."), // Configure trustProxy directly
 });
 
-// Register plugins
 fastify.register(fastifyCompress);
 fastify.register(fastifyStatic, {
 	root: path.join(__dirname, "webpage"),
@@ -123,7 +122,6 @@ fastify.get("/uptime", async (request, reply) => {
 	}
 });
 
-// Instances JSON Route
 fastify.get("/instances.json", async (_, reply) => {
 	reply.send(instances);
 });
