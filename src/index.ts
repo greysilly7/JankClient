@@ -2,7 +2,7 @@
 
 import fastifyCompress from "@fastify/compress";
 import fastifyStatic from "@fastify/static";
-import Fastify from "fastify";
+import Fastify, { FastifyServerOptions } from "fastify";
 import path from "node:path";
 import fs, { readFileSync } from "node:fs"
 import { observe, uptime } from "./stats.js";
@@ -91,12 +91,12 @@ updateInstances();
 
 const fastify = Fastify({
 	logger: devmode, // Enable logging in development mode
-	http2: true,
-	https: {
+	http2: !devmode,
+	https: !devmode ? {
 		allowHTTP1: false,
 		key: fs.readFileSync(process.env.JANK_SSL_KEY || path.join(__dirname, "..", "certs", "key.pem")),
 		cert: fs.readFileSync(process.env.JANK_SSL_CERT || path.join(__dirname, "..", "certs", "cert.pem")),
-	},
+	} : undefined,
 	trustProxy: (ip: string) => ip.startsWith("127."), // Configure trustProxy directly
 });
 
