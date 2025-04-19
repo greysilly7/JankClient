@@ -108,15 +108,11 @@ fastify.register(fastifyStatic, {
 	index: ["home.html", "index.html", "invite.html", "template.html"],
 });
 
-// --- Routes ---
 
-// oEmbed Route
 fastify.get("/services/oembed", async (request, reply) => {
-	// Fastify automatically parses query parameters into request.query
-	await inviteResponse(request, reply, instances); // Added await as inviteResponse is async
+	await inviteResponse(request, reply, instances);
 });
 
-// Uptime Route
 fastify.get("/uptime", async (request, reply) => {
 	const instanceName = (request.query as { name?: string }).name;
 	const instanceUptime = instanceName ? uptime.get(instanceName) : undefined;
@@ -132,7 +128,6 @@ fastify.get("/instances.json", async (_, reply) => {
 	reply.send(instances);
 });
 
-// Add oEmbed Link Header Hook
 fastify.addHook('onRequest', async (request, reply) => {
 	if (
 		request.url.startsWith('/services/oembed') ||
