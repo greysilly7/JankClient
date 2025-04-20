@@ -104,7 +104,8 @@ fastify.register(fastifyCompress);
 fastify.register(fastifyStatic, {
 	root: path.join(__dirname, "webpage"),
 	prefix: "/",
-	index: ["home.html", "index.html", "invite.html", "template.html"],
+	index: "home.html",
+	extensions: ["html"],
 });
 
 
@@ -131,8 +132,6 @@ fastify.addHook('onRequest', async (request, reply) => {
 		request.url.startsWith('/services/oembed') ||
 		request.url.startsWith('/uptime') ||
 		request.url.startsWith('/instances.json') ||
-		request.url.startsWith('/invite') ||
-		request.url.startsWith('/template') ||
 		request.url.includes('.')
 	) {
 		return;
@@ -156,8 +155,6 @@ fastify.addHook('onRequest', async (request, reply) => {
 		`<${link}>; rel="alternate"; type="application/json+oembed"; title="Jank Client oEmbed format"`,
 	);
 });
-
-
 
 const PORT: number = process.env.PORT ? Number.parseInt(process.env.PORT) : (Number.parseInt(process.argv[2]) || 8080);
 
